@@ -1,3 +1,7 @@
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
     entry: './src/index.js',
     performance: {
@@ -25,15 +29,29 @@ module.exports = {
             },
         ]
     },
+
     resolve: {
         extensions: ['*', '.js', '.jsx']
     },
     output: {
-        path: __dirname + '/dist',
-        publicPath: '/',
+        // move bundle.js to a folder instead the root
+        path: path.resolve('./build'),
         filename: 'bundle.js'
     },
     devServer: {
         contentBase: './dist'
-    }
+    },
+    optimization: {
+        minimize: false //Update this to true or false
+    },
+    plugins: [
+        // new webpack.optimize.UglifyJsPlugin(),
+        // New plugin
+        new HtmlWebpackPlugin({
+            // injects bundle.js to our new index.html
+            inject: true,
+            // copys the content of the existing index.html to the new /build index.html
+            template: path.resolve('./index.html'),
+        }),
+    ]
 };
