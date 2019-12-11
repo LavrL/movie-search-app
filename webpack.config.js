@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -42,11 +41,9 @@ module.exports = {
         contentBase: './dist'
     },
     optimization: {
-        minimize: false //Update this to true or false
+        minimize: false 
     },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin(),
-        // New plugin
         new HtmlWebpackPlugin({
             // injects bundle.js to our new index.html
             inject: true,
