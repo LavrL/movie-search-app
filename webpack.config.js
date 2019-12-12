@@ -38,7 +38,7 @@ module.exports = {
         filename: 'bundle.js'
     },
     devServer: {
-        contentBase: './dist'
+        contentBase: './build'
     },
     optimization: {
         minimize: false 
