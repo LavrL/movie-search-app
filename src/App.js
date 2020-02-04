@@ -27,10 +27,11 @@ const reducer = (state, action) => {
         movies: action.payload
       };
     case "SEARCH_MOVIES_FAILURE":
+      console.log('action ', action)
       return {
         ...state,
         loading: false,
-        errorMessages: action.error
+        errorMessages: action.payload
       };
     default:
       return state;
@@ -44,6 +45,7 @@ const App = () => {
     fetch(MOVIE_API)
       .then(response => response.json())
       .then(jsonResponse => {
+        console.log('jsonResponse ',jsonResponse)
         dispatch({
           type: "SEARCH_MOVIES_SUCCESS",
           payload: jsonResponse.Search
@@ -67,6 +69,7 @@ const App = () => {
             payload: jsonResponse.Search
           })
         } else {
+          console.log('jsonResponse ',jsonResponse);
           dispatch({
             type: "SEARCH_MOVIES_FAILURE",
             payload: jsonResponse.Error
@@ -74,26 +77,23 @@ const App = () => {
         }
       });
   };
-
+  
   const { movies, errorMessages, loading } = state;
-
+  console.log('state ', errorMessages);
+  
   return (
     <div className="App">
       <Header text="MOVIE SEARCH" />
       <Search search={search} />
       <p className="App-intro">Find your favourite movies</p>
       <div className="movies">
-        {loading && !errorMessages ? (
-          <span>loading ... </span>
-        ) : errorMessages ? (
-          <div> {errorMessages}</div>
-        ) : (
+        {loading && !errorMessages ? ( <span>loading ... </span> ) : (errorMessages !== null) ? (
+          <div className = "error-text"> { errorMessages }</div>) : (
               movies.map((movie, index) => (
                 <Movie key={`${index}-${movie.Title}`} movie={movie} />
               ))
             )}
       </div>
-
     </div>
   );
 }
